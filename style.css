@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    grid-template-rows: 300px 300px 300px;
+    grid-template-areas: "pole1 pole2 pole3"
+                        "pole4 pole5 pole6"
+                        "pole7 pole8 pole9";
+}                           
+
+.pole1{ 
+    grid-area: pole1;
+}
+
+.pole2 {
+    grid-area: pole2;
+}
+.pole3 {
+    grid-area: pole3;
+}
+
+.pole4 {
+    grid-area: pole4;
+}
+
+.pole5 {
+    grid-area: pole5;
+}
+
+.pole6 {
+    grid-area: pole6;
+}
+
+.pole7 {
+    grid-area: pole7;
+}
+
+.pole8 {
+    grid-area: pole8;
+}
+
+.pole9 {
+    grid-area: pole9;
+}
+
+.pole, .wrapper {
+    border: 1px solid #000;
+   
+
+}
+
+.pole {
+    display: flex;
+    font-size: 80px;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes append-animate {
+	from {
+		transform: scale(0);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;	
+	}
+}
+
+.player {
+	animation: append-animate .3s linear;
+}
