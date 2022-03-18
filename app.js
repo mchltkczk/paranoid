@@ -1,5 +1,8 @@
 let player = document.querySelector(".player");
-let x, y, moveTarget;
+let ball = document.querySelector(".ball");
+const btnStart = document.querySelector(".start");
+
+let x, y, moveTarget, moveBall;
 
 document.addEventListener("keydown", arrows);
 function arrows(event) {
@@ -18,58 +21,81 @@ function arrows(event) {
 }
 
 function arrowUp() {
-  console.log(x, y);
-  x = player.parentNode.dataset.x;
-  y = parseInt(player.parentNode.dataset.y) - 1;
-  y = y.toString();
-  moveTarget = document.querySelector(`[data-x="${x}"]` && `[data-y="${y}"]`);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
+  x = player.parentElement.dataset.x;
+  y = parseInt(player.parentElement.dataset.y) - 1;
+  moveTarget = document.querySelector(`[data-x="${x}"]` + `[data-y="${y}"]`);
   moveTarget.append(player);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
-
-  console.log(x, y);
 }
 
 function arrowDown() {
-    
-    x = player.parentNode.dataset.x;
-    y = parseInt(player.parentNode.dataset.y) + 1;
-    console.log(`ruch w dol, y+1` + x, y);
-  y = y.toString();
-  moveTarget = document.querySelector(`[data-x="${x}"]` && `[data-y="${y}"]`);
-  console.log('pole docelowe' + moveTarget.dataset.x, moveTarget.dataset.x)
+  x = parseInt(player.parentElement.dataset.x);
+  y = parseInt(player.parentElement.dataset.y) + 1;
+  moveTarget = document.querySelector(`[data-x="${x}"]` + `[data-y="${y}"]`);
   moveTarget.append(player);
-  console.log('pole po ruchu' + moveTarget.dataset.x, moveTarget.dataset.x)
-  console.log(x, y);
-
 }
 
 function arrowLeft() {
-    x = parseInt(player.parentNode.dataset.x) - 1;
-    y = player.parentNode.dataset.y;
-    console.log(x, y);
-  x = x.toString();
-  moveTarget = document.querySelector(`[data-x="${x}"]` && `[data-y="${y}"]`);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
-  
+  player.classList.remove("player__animation--right");
+  player.classList.add("player__animation--left");
+  x = parseInt(player.parentElement.dataset.x) - 1;
+  y = player.parentElement.dataset.y;
+  if (x == 0 || x == 22) {
+    return;
+  }
+  moveTarget = document.querySelector(`[data-x="${x}"]` + `[data-y="${y}"]`);
   moveTarget.append(player);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
-
-  console.log(x, y);
-
 }
 
 function arrowRight() {
-    
-    x = parseInt(player.parentNode.dataset.x) + 1;
-    y = player.parentNode.dataset.y;
-    console.log(x, y);
-  x = x.toString();
-  moveTarget = document.querySelector(`[data-y="${y}"]` && `[data-x="${x}"]`);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
+  player.classList.add("player__animation--right");
+  player.classList.remove("player__animation--left");
+  x = parseInt(player.parentElement.dataset.x) + 1;
+  y = parseInt(player.parentElement.dataset.y);
+  if (x == 0 || x == 22) {
+    return;
+  }
+  moveTarget = document.querySelector(`[data-x="${x}"]` + `[data-y="${y}"]`);
   moveTarget.append(player);
-  console.log(moveTarget.dataset.x, moveTarget.dataset.x)
+}
+let startPos;
+//random x ball position
+function ballStartingPosition(min, max) {
+  startPos = Math.random() * (max - min) + min;
+  startPos = Math.round(startPos);
+  moveBall = document.querySelector(`[data-x="${startPos}"]` + `[data-y="1"]`);
+  moveBall.append(ball);
+  return startPos;
+}
 
-  console.log(x, y);
+let moveDir;
+function ballMoveStart(min, max, startPos) {
+  moveDir = Math.random() * (max - min) + min;
+  moveDir = Math.round(moveDir);
+  moveBall = document.querySelector(
+    `[data-x="${startPos + moveDir}"]` + `[data-y="2"]`
+  );
+  moveBall.append(ball);
+  return moveDir;
+}
 
+let moveBallX, moveBallY;
+
+function ballMove(moveDir) {
+  moveBallX = parseInt(ball.parentElement.dataset.x);
+  moveBallY = parseInt(ball.parentElement.dataset.y);
+  moveBall = document.querySelector(
+    `[data-x="${moveBallX + moveDir}"]` + `[data-y="${moveBallY + 1}"]`
+  );
+  moveBall.append(ball);
+}
+
+btnStart.addEventListener("click", () => {
+  ball.hidden = false;
+  startGame();
+});
+
+function startGame() {
+  ballStartingPosition(1, 22);
+  setTimeout(ballMoveStart, 700, -1, 1, startPos);
+  setTimeout(ballMove, 700, moveDir);
 }
