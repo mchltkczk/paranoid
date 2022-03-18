@@ -75,13 +75,16 @@ function ballMoveStart(min, max, startPos) {
     `[data-x="${startPos + moveDir}"]` + `[data-y="2"]`
   );
   moveBall.append(ball);
-  return moveDir;
+  moveDir;
+  setInterval(ballMove, 800, moveDir);
+
 }
 
 let moveBallX, moveBallY;
 
 function ballMove(moveDir) {
   moveBallX = parseInt(ball.parentElement.dataset.x);
+  console.log(moveBallX)
   moveBallY = parseInt(ball.parentElement.dataset.y);
   moveBall = document.querySelector(
     `[data-x="${moveBallX + moveDir}"]` + `[data-y="${moveBallY + 1}"]`
@@ -96,6 +99,5 @@ btnStart.addEventListener("click", () => {
 
 function startGame() {
   ballStartingPosition(1, 22);
-  setTimeout(ballMoveStart, 700, -1, 1, startPos);
-  setTimeout(ballMove, 700, moveDir);
+  setTimeout(ballMoveStart, 800, -1, 1, startPos);
 }
